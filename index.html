@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>R aplicado a la ECH</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="  Creative Commons Attribution 4.0 International License" />
+    <link href="index_files/font-awesome-5.3.1/css/fontawesome-all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# R aplicado a la ECH
+## Setiembre 2020 <br> Gabriela Mathieu
+### <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><br /> <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>
+
+---
+
+
+
+
+
+
+
+
+# ¿Qué haremos hoy?
+
+- Repaso
+&lt;br&gt;&lt;br&gt;
+--
+
+- Cálculo de ingresos a precios constantes, quintiles y deciles
+&lt;br&gt;&lt;br&gt;
+--
+
+- Estimación de indicadores de ingresos y distribución del ingreso
+
+- Ejercicios
+
+---
+# Ingresos
+
+- La medición de los ingresos tiene un  &lt;span style=" font-weight: bold;    border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #b3e2cd !important;" &gt;rezago de un mes&lt;/span&gt; ya que si el hogar fue encuestado, por ejemplo en marzo, en este mes se preguntó por los ingresos del mes anterior, es decir, de febrero. 
+&lt;br&gt;&lt;br&gt;
+--
+
+- Se relevan  &lt;span style=" font-weight: bold;    border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #b3e2cd !important;" &gt;ingresos personales y del hogar&lt;/span&gt;:
+
+     Los ingresos personales se clasifican en: 
+    Ingresos por trabajo: dependiente e independiente (en dinero y en especie)
+    Ingresos por transferencias: incluye los ingresos provenientes de instituciones públicas o privadas (en dinero y en especie) 
+    Otros ingresos personales: se incluye específicamente la devolución de Fonasa y todo otro ingreso corriente.
+    
+     Los ingresos del hogar se clasifican en:
+    Transferencias de otros hogares (en dinero y en especie)
+    Rentas de la propiedad de activos físicos y financieros.
+    Ingresos por dividendos y utilidades de negocios en los que la persona no trabaja.
+    Valor locativo (para los propietariosy ocupantes, en áreas urbanas)
+
+
+---
+# Valor locativo
+
+- El valor locativo de la vivienda en propiedad se computa en la &lt;span style=" font-weight: bold;    border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #b3e2cd !important;" &gt;rezago de un mes&lt;/span&gt;variable ht13 y se imputa en la variable ht11
+&lt;br&gt;&lt;br&gt;
+--
+
+- Es un &lt;span style=" font-weight: bold;    border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #b3e2cd !important;" &gt;gasto no realizado que se imputa como ingreso&lt;/span&gt; en concepto de 'servicios de vivienda producidos por propietarios que habitan su vivienda o bien servicios de vivienda recibidos por el hogar por cesión de los propietarios'.
+&lt;br&gt;&lt;br&gt;
+--
+
+- Si los miembros de ese hogar desearan habitar esta vivienda, deberían incrementar su ingreso total en el valor locativo. Desde este punto de vista, &lt;span style=" font-weight: bold;    border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #b3e2cd !important;" &gt;un gasto no realizado que se contabiliza como ingreso&lt;/span&gt;. 
+&lt;br&gt;&lt;br&gt;
+--
+
+- En la ENGIH 2005-06 se relevó el valor locativo a partir de la &lt;span style=" font-weight: bold;    border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #b3e2cd !important;" &gt;estimación de los propios hogares, propietarios u ocupantes&lt;/span&gt;. Se les preguntó por el monto del alquiler que pagarían si arrendaran su vivienda.
+
+&lt;!-- - La importancia del análisis del valor locativo (VL) se debe, en primer lugar, al peso que tiene en el gasto no alimentario y en el ingreso de los hogares. Por otra parte, en el caso del Uruguay, la mayoría de los hogares son propietarios de la vivienda que ocupan, o la misma les fue cedida (el 86% de los hogares en todo el país declaran valor locativo; y sólo el 14% de los hogares alquilan la vivienda que ocupan). --&gt;
+
+
+Fuente: http://www3.ine.gub.uy:82/Anda4/index.php/catalog/42/datafile/F6/V320
+
+---
+# Ingresos a precios corrientes
+
+- Los ingresos relevados en la ECH están &lt;span style=" font-weight: bold;    border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #b3e2cd !important;" &gt;expresados a precios corrientes&lt;/span&gt;. 
+&lt;br&gt;&lt;br&gt;
+--
+
+- Para &lt;span style=" font-weight: bold;    border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #b3e2cd !important;" &gt;hacerlos comparables entre los diferentes meses de la encuesta o entre años &lt;/span&gt;es necesario llevarlos a una medida común. Vamos a &lt;span style=" font-weight: bold;    border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #b3e2cd !important;" &gt;pasar de precios corrientes a precios constantes&lt;/span&gt;.
+&lt;br&gt;&lt;br&gt;
+--
+
+- Para convertir los ingresos de precios corrientes a precios constantes debemos elegir un índice para construir un &lt;span style=" font-weight: bold;    border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #b3e2cd !important;" &gt;deflactor&lt;/span&gt;. Lo más común es usar el IPC (Índice de Precios al Consumo) o el IPAB (Índice de Precios de Alimentos y Bebidas). 
+
+---
+# IPC general
+
+- Obtener los datos del IPC es bastante sencillo usando el paquete ech.
+
+- La función &lt;span style=" font-weight: bold;    border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #b3e2cd !important;" &gt;get_ipc()&lt;/span&gt; que descarga el archivo de la web del INE y lo guarda en un formato tidy en el data frame ipc_base2010. La estructura del objeto es la siguiente:
+
+
+```r
+library(ech)
+ipc_base2010 %&gt;% tail()
+```
+
+```
+# A tibble: 6 x 5
+  fecha      indice          mensual            acum_ano        acum_12_meses   
+  &lt;date&gt;     &lt;chr&gt;           &lt;chr&gt;              &lt;chr&gt;           &lt;chr&gt;           
+1 2019-07-01 197.94          0.760000000000000… 6.070000000000… 7.54            
+2 2019-08-01 199.69          0.88               7               7.7599999999999…
+3 2019-09-01 200.72          0.520000000000000… 7.559999999999… 7.7800000000000…
+4 2019-10-01 202.2299999999… 0.75               8.359999999999… 8.3399999999999…
+5 2019-11-01 203.0800000000… 0.419999999999999… 8.820000000000… 8.4000000000000…
+6 2019-12-01 203.0200000000… -0.02999999999999… 8.789999999999… 8.7899999999999…
+```
+
+
+---
+# IPC regional
+
+Desde 2010 el INE releva precios para todo el país y así construye un IPC para Montevideo y otro para el Interior.
+
+.pull-left[
+
+```r
+ipc_base2010_int %&gt;% tail()
+```
+
+```
+# A tibble: 6 x 2
+  fecha      indice            
+  &lt;date&gt;     &lt;chr&gt;             
+1 2019-07-01 193.19999999999999
+2 2019-08-01 195.06            
+3 2019-09-01 196.09            
+4 2019-10-01 197.66999999999999
+5 2019-11-01 198.5             
+6 2019-12-01 198.18000000000001
+```
+
+]
+.pull-right[
+
+```r
+ipc_base2010_mdeo %&gt;% tail()
+```
+
+```
+# A tibble: 6 x 2
+  fecha      indice            
+  &lt;date&gt;     &lt;chr&gt;             
+1 2019-07-01 201.56            
+2 2019-08-01 203.22            
+3 2019-09-01 204.25999999999999
+4 2019-10-01 205.71000000000001
+5 2019-11-01 206.56            
+6 2019-12-01 206.69999999999999
+```
+
+]
+---
+# IPAB
+
+Otro índice de precios es el IPAB y también se obtiene fácilmente usando el paquete ech.
+
+- ipab_base2010
+
+- ipab_base2010mdeo
+
+- ipab_base2010_int
+
+---
+# Variables
+
+- El &lt;span style=" font-weight: bold;    border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #b3e2cd !important;" &gt;ingreso total del hogar&lt;/span&gt; con valor locativo, es el ingreso percibido por todas las personas integrantes del hogar menos el servicio doméstico.
+
+- El &lt;span style=" font-weight: bold;    border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #b3e2cd !important;" &gt;ingreso per cápita del hogar&lt;/span&gt; es el cociente entre el ingreso total del hogar y la cantidad de personas que integran el hogar (sin servicio doméstico).
+
+
+Descripción | Variable | Códigos
+---------------------------------------------|-----------|------------
+Ingreso total del hogar con valor locativo sin servicio doméstico	| ht11	| $
+Valor locativo	| ht13 |	$ 
+Cantidad de personas sin servicio doméstico	| ht19 |	Nº
+
+---
+class: inverse, center, middle
+# ech::deflate()
+
+---
+# Deflactor
+
+- La función &lt;span style=" font-weight: bold;    border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #b3e2cd !important;" &gt;deflate()&lt;/span&gt;, selecciona las filas de ipc_base2010 de diciembre del mes anterior al año de la encuesta y noviembre del año de la encuesta.
+
+- En general, se toma como IPC base junio del año de la encuesta.
+
+- Para calcular el deflactor de cada mes, el valor del IPC base –correspondiente a junio de 2019– es dividido por el valor del IPC de cada uno de los meses.
+
+- Esta función &lt;span style=" font-weight: bold;    border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #b3e2cd !important;" &gt;opera al interior de la función income_constant_prices()&lt;/span&gt;.
+
+---
+class: inverse, center, middle
+# ech::income_constant_prices()
+
+---
+# Ingresos a precios constantes
+
+Para convertir los ingresos del hogar, que están medidos en la variable ht11, de precios corrientes a precios constantes, usamos la función income_constant_prices() y definimos sus parámetros:
+
+
+```r
+load("data/ech19.RData")
+ech19 &lt;- income_constant_prices(data = ech19,
+                             base_month = 6,   # mes base
+                             base_year = 2019, # año base
+                             index = "IPC",    # tipo de índice
+                             level = "G")      # nivel del índice G o R
+```
+
+
+Esto crea una serie de variables:
+
+    y_pc: ingreso per cápita a precios corrientes
+    y_pc_d: ingreso per cápita a precios constantes
+    rv_d: valor locativo a precios constantes
+    y_wrv_d: ingreso sin valor locativo a precios constantes
+    y_wrv_pc_d: ingreso sin valor locativo per cápita a precios constantes
+
+
+---
+# Estimación de ingresos a precios constantes
+
+Estimamos el ingreso promedio per cápita a pesos constantes de junio 2019.
+
+
+```r
+get_estimation_mean(ech19,
+                    variable = "y_pc_d", 
+                    level = "i",
+                    ids = "upm",
+                    estrato = "estrato")
+```
+
+```
+# A tibble: 1 x 3
+  estimacion estimacion_low estimacion_upp
+       &lt;dbl&gt;          &lt;dbl&gt;          &lt;dbl&gt;
+1     27127.         26865.         27389.
+```
+
+---
+# Estimación de ingresos a precios constantes 
+
+Ingresos promedio per cápita a pesos constantes de junio 2019 según departamento
+
+
+```r
+get_estimation_mean(ech19,
+                    variable = "y_pc_d",
+                    by.x = "nomdpto",
+                    level = "i",
+                    ids = "upm",
+                    estrato = "estrato")
+```
+
+```
+# A tibble: 19 x 4
+   nomdpto        estimacion estimacion_low estimacion_upp
+   &lt;chr&gt;               &lt;dbl&gt;          &lt;dbl&gt;          &lt;dbl&gt;
+ 1 ARTIGAS            17753.         16677.         18829.
+ 2 CANELONES          25633.         25055.         26212.
+ 3 CERRO LARGO        17211.         16365.         18058.
+ 4 COLONIA            23770.         22840.         24701.
+ 5 DURAZNO            20238.         18647.         21829.
+ 6 FLORES             24716.         22514.         26918.
+ 7 FLORIDA            23150.         21779.         24520.
+ 8 LAVALLEJA          22246.         20669.         23824.
+ 9 MALDONADO          25949.         24991.         26907.
+10 MONTEVIDEO         34296.         33781.         34811.
+11 PAYSANDU           20846.         19709.         21984.
+12 RIO NEGRO          20746.         19508.         21985.
+13 RIVERA             16733.         15890.         17576.
+14 ROCHA              22266.         21118.         23413.
+15 SALTO              20351.         19257.         21445.
+16 SAN JOSE           22348.         21452.         23243.
+17 SORIANO            22422.         20900.         23945.
+18 TACUAREMBO         17943.         17017.         18869.
+19 TREINTA Y TRES     18940.         17517.         20362.
+```
+---
+class: inverse, center, middle
+# ech::income_quantiles()
+
+---
+# Cuantiles de ingreso
+
+Los cuantiles son medidas estadísticas de posición que tienen la propiedad de dividir un conjunto de datos ordenados (de forma creciente) en 'q' partes iguales. La varianza es una medida de dispersión y la media y mediana de tendencia central.
+
+Los cuantiles de ingresos más comunes son: cuartiles, **quintiles**, **deciles** y percentiles.
+
+
+```r
+income_quantiles(
+  data = ech::toy_ech_2018, # microdatos
+  quantile = 5,             # cuantiles, 5 para quintiles, 10 para deciles
+  weights = "pesoano",      # ponderador
+  income = "y_pc_d"         # variable de ingresos
+)
+```
+
+---
+# Quintiles de ingreso
+
+- Los quintiles de ingreso se obtienen al ordenar la población, por ejemplo, en un país o región determinados, según la variable de ingresos considerada, de &lt;span style=" font-weight: bold;    border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #b3e2cd !important;" &gt;menor a mayor&lt;/span&gt; y luego se divide esa población en &lt;span style=" font-weight: bold;    border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #b3e2cd !important;" &gt;cinco partes iguales&lt;/span&gt;. 
+
+- El &lt;span style=" font-weight: bold;    border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #b3e2cd !important;" &gt;20% de menores ingresos representa al primer quintil&lt;/span&gt;, el siguiente 20% representa el segundo quintil y así sucesivamente, hasta el 20% de mayores ingresos que representa el quinto quintil. 
+
+
+---
+# Quintiles de ingreso
+
+En este caso generamos la variable quintil usando el ingreso per cápita corriente. La variable de ingreso va a cambiar según que queramos estimar. 
+
+
+
+```r
+ech19 &lt;- income_quantiles(ech19,
+                          quantile = 5,
+                          income = "y_pc")
+```
+
+Estimamos el promedio del ingreso per cápita a precios corrientes según quintiles de ingreso
+
+
+```r
+get_estimation_mean(ech19,
+                    variable = "y_pc",
+                    by.x = "quintil",
+                    level = "i")
+```
+
+
+Comparamos con el [OS](http://observatoriosocial.mides.gub.uy/New_Pivot/cubos/Promedio_de_ingresos_per_capita_a_precios_corrientes_segun_quintiles_de_ingreso_Total_pais_i13659.php)
+
+
+---
+class: inverse, center, middle
+# ech::get_estimation_gini()
+
+---
+# Índice de Gini
+
+- El índice de Gini es una &lt;span style=" font-weight: bold;    border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #b3e2cd !important;" &gt;medida de distribución del ingreso&lt;/span&gt;.
+
+- &lt;span style=" font-weight: bold;    border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #b3e2cd !important;" &gt;Varía entre cero y uno&lt;/span&gt;, indicando mayor nivel de desigualdad cuanto más cercano a uno se encuentre.
+
+- El INE para calcular el ingreso a utilizar en el Índice de Gini, deflacta los ingresos usando como año base 2005 y como mes base enero. Utiliza como índice el IPC a nivel regional.
+
+- Para el cálculo de los intervalos de confianza se utiliza la técnica bootstrap, que implica hacer r sub-muestras de la muestra original.
+
+---
+# Estimar el Índice de Gini
+
+El paquete ech prové una función específica para la estimación del IG
+
+
+```r
+get_estimation_gini(
+  data = ech::toy_ech_2018, # microdatos de la ECH
+  variable = NULL,          # variable de ingresos a utilizar
+  by = NULL,                # variable de cruce
+  level = NULL,             # nivel de personas u hogares
+  ids = NULL,               # upms
+  numero = "numero",        # identificador del hogar
+  estrato = NULL,           # estratos
+  pesoano = "pesoano",      # ponderador
+  bootstrap = FALSE,        # lógica para el bootstrap
+  r = NULL                  # cantidad de sub-muestras
+)
+```
+
+---
+# Índice de Gini
+
+Genero la variable ingreso deflactada por el IPC regional a enero de 2005.
+
+
+```r
+ech19 &lt;- income_constant_prices(ech19,
+                                base_month = 1,
+                                base_year = 2005,
+                                index = "IPC",
+                                level = "R")
+```
+---
+# Índice de Gini
+
+- Estimo el Índice de Gini a nivel de personas, usando 300 sub-muestras para el bootstrap.
+
+- Uso el ingreso sin valor locativo per cápita deflactado a enero 2005 con IPC regional.
+
+
+```r
+get_estimation_gini(ech19,
+                    variable = "y_wrv_pc_d_r",
+                    level = "i",
+                    r = 300,
+                    bootstrap = TRUE,
+                    pesoano = "pesoano",
+                    ids = "upm",
+                    estrato = "estrato")
+```
+
+Comparo con [OTU](https://otu.opp.gub.uy/?q=listados/listados_datos_formato&amp;id=2740&amp;cant=0&amp;fecha=2019-01-01)
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"slideNumberFormat": "<div class=\"progress-bar-container\">   <div class=\"progress-bar\" style=\"width: calc(%current% / %total% * 100%);\">   </div> </div>"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
